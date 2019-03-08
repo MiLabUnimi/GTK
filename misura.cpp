@@ -45,6 +45,7 @@ Misura::~Misura()
 
 void Misura::perform_measure()
 {
+    std::cout<<QThread::currentThreadId()<<std::endl;
     srand((unsigned)time(NULL));
     if(measure_number==0){
         emit start();
@@ -69,16 +70,16 @@ void Misura::perform_measure()
         double N_point = 100.0;
         if(!graph_show){
             measure->clear();
-            //measure_spline->clear();
+            measure_spline->clear();
         }
 
             for(int i=0; i<100; i++){
                 compl_perc = ((double(i)+1.0)/N_point)*100;
                 emit update_progress();
                 measure->setName("Radiation Pattern N."+QString::number(measure_number));
-                //measure_spline->setName("Radiation Pattern Spline N."+QString::number(measure_number));
+                measure_spline->setName("Radiation Pattern Spline N."+QString::number(measure_number));
                 measure->append(i*(7+measure_number*10), double(i)*100.0*rand()/double(RAND_MAX));
-                //measure_spline->append(i*(7+measure_number*10), double(i)*100.0*rand()/double(RAND_MAX));
+                measure_spline->append(i*(7+measure_number*10), double(i)*100.0*rand()/double(RAND_MAX));
 
                 view->update();
                 usleep(15000);

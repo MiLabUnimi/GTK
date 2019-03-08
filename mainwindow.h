@@ -39,6 +39,7 @@ private slots:
     void load_cut();
     void start_meas_thread();
     void refresh_data();
+    void refresh_all();
     void start_mis();
     void end_mis();
     void set_overwrite_graph();

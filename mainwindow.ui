@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="motor_check">
      <attribute name="title">
@@ -35,7 +35,7 @@
        <rect>
         <x>20</x>
         <y>20</y>
-        <width>161</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -46,7 +46,7 @@
      <widget class="QLabel" name="labelStatus">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>200</x>
         <y>20</y>
         <width>51</width>
         <height>31</height>
@@ -1047,6 +1047,16 @@
        </property>
       </widget>
      </widget>
+     <widget class="QListWidget" name="listSeries">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>30</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -1056,7 +1066,7 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>19</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

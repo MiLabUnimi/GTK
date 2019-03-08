@@ -17,6 +17,8 @@
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QPolarChart>
 #include <QtCharts/QChartView>
+#include <QList>
+#include <QAbstractSeries>
 #include <QThread>
 #include <QPushButton>
 
@@ -24,18 +26,18 @@
 
 using namespace QtCharts;
 
-QThread *tt_mis;
-QThread *tt_motor;
+static QThread *tt_mis;
+static QThread *tt_motor;
 
-Misura *mis;
-Motor  *mot;
+static Misura *mis;
+static Motor  *mot;
 
 
-double yMin = 0;
-double yMax = 10;
+static double yMin = 0;
+static double yMax = 10;
 
-double xMin = 0;
-double xMax = 10;
+static double xMin = 0;
+static double xMax = 10;
 
 
 extern motor_par mot1;
@@ -199,23 +201,25 @@ void MainWindow::load_cut(){
 
 
 
-
-
 void MainWindow::start_meas_thread()
 {
+
     if(measure_number==0){
         tt_mis->start();
     }else{
 
 
         measure = new QScatterSeries;
-        //measure_spline = new QSplineSeries;
+        measure_spline = new QSplineSeries;
         for (int i = -90; i <= 90; i += 10){
             measure->append(i, i);
+            measure_spline->append(i, i);
             measure->clear();
-
+            measure_spline->clear();
         }
+
         chartl->addSeries(measure);
+        chartl->addSeries(measure_spline);
         chartl->createDefaultAxes();
         view->setChart(chartl);
         tt_mis->start();
@@ -226,8 +230,22 @@ void MainWindow::start_meas_thread()
 
 void MainWindow::refresh_data()
 {
-    measure_spline->clear();
-    measure->clear();
+    chartl->clearFocus();
+    chartl->removeAllSeries();
+
+    view->update();
+    ui->listSeries->clear();
+
+    measure_number = 0;
+    tt_mis->quit();
+
+
+}
+
+void MainWindow::refresh_all()
+{
+    chartl->clearFocus();
+    chartl->removeSeries(measure);
     view->update();
 }
 
@@ -246,7 +264,15 @@ void MainWindow::update_prog()
 void MainWindow::end_mis()
 {
     ui->meas_log->setText("Measure N."+QString::number(measure_number)+"\nCompleted.");
-    tt_mis->exit();
+    //tt_mis->exit();
+    tt_mis->quit();
+    QList<QAbstractSeries *> s = chartl->series();
+
+    ui->listSeries->clear();
+    foreach(QtCharts::QAbstractSeries* prova, s)
+    {
+        ui->listSeries->addItem(prova->name());
+    }
 }
 
 
